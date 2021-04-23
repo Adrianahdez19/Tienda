@@ -1,13 +1,13 @@
 </div>
 <footer>
-    <div class="footer clearfix mb-0 text-muted">
-        <div class="float-start">
-            <p>Sistema Tienda en Línea 2.0</p>
-        </div>
-        <div class="float-end">
-            <p>2021 - AG College</p>
-        </div>
+  <div class="footer clearfix mb-0 text-muted">
+    <div class="float-start">
+      <p>Sistema Tienda en Línea 2.0</p>
     </div>
+    <div class="float-end">
+      <p>2021 - AG College</p>
+    </div>
+  </div>
 </footer>
 </div>
 </div>
