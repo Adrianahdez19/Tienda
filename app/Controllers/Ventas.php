@@ -18,4 +18,10 @@ class Ventas extends BaseController
 		echo view('ventas');
 		echo view('footer');
 	}
+
+	public function datos($tipo)
+	{
+		$result = $this->ventas_model->getDatos($tipo);
+		echo json_encode($result);
+	}
 }

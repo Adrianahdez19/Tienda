@@ -15,8 +15,6 @@ class Inicio extends BaseController
 	{
 		$data['titulo'] = 'Listado de Ventas';
 		echo view('header', $data);
-		// $clientes = $this->home_model->getClientes();
-		// $data['clientes'] = $clientes;
 		// echo view('header');
 		// $data['ventas'] = $this->home_model->getVentas();
 		echo view('inicio');

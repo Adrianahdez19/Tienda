@@ -23,7 +23,7 @@
                                                           placeholder="Juan Pérez"
                                                           aria-label="Juan Pérez"
                                                           aria-describedby="button-addon2">
-                                                          <button type="button" class="input-group-text" id="basic-addon1" data-bs-toggle="modal" data-bs-target="#modal">
+                                                          <button type="button" class="input-group-text" id="btnClientes">
                                                             <i class="bi bi-plus"></i>
                                                           </button>
                                                   </div>
@@ -32,8 +32,7 @@
                                                           <label>Artículo:</label>
                                                       </div>
                                                       <div class="col-md-8 form-group">
-                                                        <button type="submit"
-                                                            class="btn btn-primary me-1 mb-1">Agregar</button>
+                                                        <button type="btn" id="btnArticulos" class="btn btn-primary me-1 mb-1">Agregar</button>
                                                       </div>
                                                   </div>
                                               </div>
@@ -76,31 +75,5 @@
 <!-- End Nueva Venta -->
 
 <!-- Modal Clientes -->
-<?php
-$tituloModal = 'Clientes';
-$thModal = array('Nombre', 'Apellidos');
-$contenidoModal =
-'<div class="table-responsive">
-    <table class="table table-bordered mb-0">
-        <thead>
-            <tr>';
-              foreach ($thModal as $th):
-                $contenidoModal .= '<th>' . $th . '</th>';
-              endforeach;
-              $contenidoModal .= '
-            </tr>
-        </thead>
-        <tbody>
-            <tr>';
-              foreach ($thModal as $th):
-                $contenidoModal .= '<td>' . $th . '</td>';
-              endforeach;
-              $contenidoModal .= '
-            </tr>
-        </tbody>
-    </table>
-</div>';
-
-require('modal.php');
-?>
+<?php echo view('modal');?>
 <!-- End Modal Clientes -->
