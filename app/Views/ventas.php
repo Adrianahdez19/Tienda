@@ -5,7 +5,6 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                      <!-- Basic Horizontal form layout section start -->
                       <div class="row match-height">
                           <div class="col-md-6 col-12">
                               <div class="card">
@@ -19,10 +18,10 @@
                                                       </div>
                                                       <div class="col-md-8 form-group">
                                                               <div class="input-group mb-3">
-                                                      <input type="text" class="form-control"
+                                                      <input type="text" id="txtCliente" class="form-control"
                                                           placeholder="Juan Pérez"
                                                           aria-label="Juan Pérez"
-                                                          aria-describedby="button-addon2">
+                                                          aria-describedby="button-addon2" disabled>
                                                           <button type="button" class="input-group-text" id="btnClientes">
                                                             <i class="bi bi-plus"></i>
                                                           </button>
@@ -42,9 +41,7 @@
                               </div>
                           </div>
                       </div>
-                <!-- // Basic Horizontal form layout section end -->
                     </div>
-                    <!-- table bordered -->
                     <div class="table-responsive">
                         <table class="table table-bordered mb-0">
                             <thead>

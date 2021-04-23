@@ -6,7 +6,22 @@
               <h5 class="modal-title" id="modalTitulo"></h5>
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x"></i></button>
           </div>
-          <div class="modal-body" id="modalContenido"></div>
+          <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                        <tr id="Tableth">
+
+                        </tr>
+                    </thead>
+                    <tbody id="Tabletr">
+                        <tr>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
                   <i class="bx bx-x d-block d-sm-none"></i>
