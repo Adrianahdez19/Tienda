@@ -10,7 +10,7 @@
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
-                      <form class="form form-horizontal">
+                      <form id="formVentas" class="form form-horizontal">
                         <div class="form-body">
                           <div class="row">
                             <div class="col-md-4">
@@ -31,7 +31,7 @@
                               <label>Artículo:</label>
                             </div>
                             <div class="col-md-8 form-group">
-                              <button type="btn" id="btnArticulos" class="btn btn-primary me-1 mb-1">Agregar</button>
+                              <button type="button" id="btnArticulos" class="btn btn-primary me-1 mb-1">Agregar</button>
                             </div>
                           </div>
                         </div>
@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="table-responsive">
-            <table class="table table-bordered mb-0">
+            <table id="tablaVentas" class="table table-bordered mb-0">
               <thead>
                 <tr>
                   <th>DESCRIPCIÓN ARTÍCULO</th>
@@ -51,16 +51,11 @@
                   <th>CANTIDAD</th>
                   <th>PERCIO</th>
                   <th>IMPORTE</th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td class="text-bold-500">Michael Right</td>
-                  <td>$15/hr</td>
-                  <td class="text-bold-500">UI/UX</td>
-                  <td>Remote</td>
-                  <td>Austin,Taxes</td>
-                </tr>
+              <tbody id="tr">
+
               </tbody>
             </table>
           </div>

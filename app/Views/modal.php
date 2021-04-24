@@ -8,16 +8,14 @@
       </div>
       <div class="modal-body">
         <div class="table-responsive">
-          <table class="table table-bordered mb-0">
+          <table id="tablaModal" class="table table-bordered mb-0">
             <thead>
-              <tr id="Tableth">
+              <tr id="th">
 
               </tr>
             </thead>
-            <tbody id="Tabletr">
-              <tr>
-
-              </tr>
+            <tbody id="tr">
+              
             </tbody>
           </table>
         </div>

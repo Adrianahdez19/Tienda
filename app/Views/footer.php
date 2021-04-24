@@ -17,6 +17,7 @@
 <script src="assets/js/jquery.easing.min.js"></script>
 <script src="assets/js/jquery.magnific-popup.min.js"></script>
 <script src="assets/js/modulos/funciones.js"></script>
+<script src="assets/js/modulos/globales.js"></script>
 </body>
 
 </html>
