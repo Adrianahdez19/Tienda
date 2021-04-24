@@ -19,8 +19,8 @@
                             <div class="col-md-8 form-group">
                               <div class="input-group mb-3">
                                 <input type="text" id="txtCliente" class="form-control"
-                                placeholder="Juan Pérez"
-                                aria-label="Juan Pérez"
+                                placeholder="Cliente"
+                                aria-label="Cliente"
                                 aria-describedby="button-addon2" disabled>
                                 <button type="button" class="input-group-text" id="btnClientes">
                                   <i class="bi bi-plus"></i>
@@ -42,20 +42,38 @@
               </div>
             </div>
           </div>
-          <div class="table-responsive">
+          <div class="table-responsive" style="padding: 10px;">
             <table id="tablaVentas" class="table table-bordered mb-0">
               <thead>
                 <tr>
                   <th>DESCRIPCIÓN ARTÍCULO</th>
                   <th>MARCA</th>
                   <th>CANTIDAD</th>
-                  <th>PERCIO</th>
+                  <th>PRECIO</th>
                   <th>IMPORTE</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody id="tr">
 
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive" style="padding: 50px 10px 10px 50%;">
+            <table class="table table-bordered mb-0">
+              <tbody>
+                <tr>
+                  <td style="font-weight: 1000; text-align: center">SUBTOTAL</td>
+                  <td id="subtotal" style="text-align: center">$0</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 1000; text-align: center">IVA</td>
+                  <td id="iva" style="text-align: center">$0</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 1000; text-align: center">TOTAL</td>
+                  <td id="total" style="text-align: center">$0</td>
+                </tr>
               </tbody>
             </table>
           </div>

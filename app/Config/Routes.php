@@ -34,7 +34,8 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Inicio::index');
 $routes->get('/ventas', 'Ventas::index');
-$routes->get('/datos/(:alpha)', 'Ventas::datos/$1');
+$routes->get('/ventas/datos/(:alpha)', 'Ventas::datos/$1');
+$routes->get('/ventas/venta', 'Ventas::venta');
 
 /*
  * --------------------------------------------------------------------
