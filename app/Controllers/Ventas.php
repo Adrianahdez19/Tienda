@@ -27,11 +27,7 @@ class Ventas extends BaseController
 
 	public function venta()
 	{
-		// $result = $this->ventas_model->calcularVenta();
-		// echo json_encode($result);
-		if ($this->request->isAJAX()) {
-			$query = service('request')->getPost('data');
-			var_dump($this->request->getPost('data'));
-		}
+		$result = $this->ventas_model->calcularVenta();
+		echo json_encode($result);
 	}
 }

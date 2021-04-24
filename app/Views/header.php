@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
   <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/vendors/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="assets/css/app.css">
 </head>
 

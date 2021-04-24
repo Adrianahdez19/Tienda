@@ -1,7 +1,8 @@
 $( document ).ready(function() {
+  localStorage.removeItem('articulos');
   // Bloquear letras
   $('body').on('keypress', '.valt', function(tecla) {
-    if(tecla.charCode < 48 || tecla.charCode > 57) { // Números
+    if(tecla.charCode < 48 || tecla.charCode > 57) { // N�meros
       return false;
     }
   });
@@ -10,11 +11,59 @@ $( document ).ready(function() {
 var datos = "";
 var idCliente = "";
 var idArticulo = "";
-var articulos = [];
+var articulo = new Object();
+var local = [];
 var importeActual = 0;
 var subtotal = 0;
 var iva = 0;
 var total = 0;
+
+function getLocal(tipo) {
+  local = localStorage.getItem("articulos");
+  local = JSON.parse(local);
+
+  if(tipo == 'especifico') {
+    if(local) {
+      // console.log("LOCAL TIENE");
+      let especifico = true;
+      for(var i = 0; i < local.length; i++) {
+        if(local[i].Id == idArticulo) especifico = false;
+      }
+      return especifico;
+    }
+    else {
+      // console.log("LOCAL VACIO");
+      return true;
+    }
+  }
+  if(tipo == 'datos') {
+    let result = false;
+    for(let i = 0; i < datos.length; i++) {
+      if(datos[i].Id == idArticulo) result = datos[i];
+    }
+    return result;
+  }
+  if(tipo == 'agregar') {
+    let temporal = [];
+    temporal.push(articulo);
+    if(local) {
+      console.log("DEBE DE CREAR TEMPORAL");
+      for(let i = 0; i < local.length; i++) {
+        temporal.push(local[i]);
+      }
+    }
+    localStorage.setItem("articulos", JSON.stringify(temporal));
+    console.log(temporal);
+  }
+  if(tipo == 'eliminar') {
+    // nombre.push(datos[i]);
+    // // articulos.push(datos[i]);
+    // localStorage.setItem("articulos", JSON.stringify(nombre));
+    // let final = localStorage.getItem("articulos");
+    // final = JSON.parse(final);
+    // console.log(final);
+  }
+}
 
 $('#formVentas button').click(function() {
   if(this.id == 'btnClientes') {
@@ -72,51 +121,51 @@ function modal(url, titulo, titulos) {
 }
 
 $('body').on('click', '#tablaModal tr', function(evt) {
-  console.log("SELECCIONO TR");
   let id = this.id;
   let tipo = $(this).parent().attr('data-value');
-  if(tipo == 'Clientes') {
-    idCliente = id;
-    $('#' + idCliente).css('background', '#435ebe40');
-    let nombre = $(this).attr('data-name');
-    $('#txtCliente').val('000' + idCliente + " - " + nombre);
-  }
-  else {
-    idArticulo = id;
-    let bandera = false;
-    console.log(articulos);
-    if(articulos.length) {
-      for (var i = 0; i < articulos.length; i++) {
-        if(articulos[i].Id == idArticulo) {
-          bandera = true;
-          console.log("EXISTE");
-        }
-      }
+  if(tipo) {
+    if(tipo == 'Clientes') {
+      idCliente = id;
+      $('#tablaModal #' + idCliente).css('background', '#435ebe40');
+      let nombre = $(this).attr('data-name');
+      $('#txtCliente').val('000' + idCliente + " - " + nombre);
     }
-    if(!bandera) {
-      $('#' + idArticulo).css('background', '#435ebe40');
-      for (let i = 0; i < datos.length; i++) {
-        if(datos[i].Id == idArticulo) {
-          articulos.push(datos[i]);
+    else {
+      idArticulo = id;
+      $('#tablaModal #' + idArticulo).css('background', '#435ebe40');
+      let especifico = getLocal('especifico');
+      // console.log("DICE SI DEBE AREGAGR O NO: " + especifico);
+      if(especifico) {
+        // No exixte articulo
+        let result = getLocal('datos');
+        // console.log(result);
+        if(result) {
           let tr = "";
           tr += `
-          <tr id="` + datos[i].Id + `">
-          <td>` + datos[i].Nombre + `</td>
-          <td>` + datos[i].Marca + `</td>
-          <td><input type="text" id="txtCantidad-` + datos[i].Id + `" data-value="` + datos[i].Id + `" class="form-control valt cantidad" value="1"></td>
-          <td>$` + datos[i].Precio + `</td>
-          <td id="importe-` + datos[i].Id + `">$` + datos[i].Precio + `</td>
+          <tr id="` + result['Id'] + `">
+          <td>` + result['Nombre'] + `</td>
+          <td>` + result['Marca'] + `</td>
+          <td><input type="text" id="txtCantidad-` + result['Id'] + `" data-value="` + result['Id'] + `" class="form-control valt cantidad" value="1"></td>
+          <td>$` + result['Precio'] + `</td>
+          <td id="importe-` + result['Id'] + `">$` + result['Precio'] + `</td>
           <td>
-          <button type="button" class="input-group-text" id="btnEliminar" data-value="` + datos[i].Id + `">
+          <button type="button" class="input-group-text" id="btnEliminar" data-value="` + result['Id'] + `">
           <i class="bi bi-trash"></i>
           </button></td>
           </tr>`;
           $('#tablaVentas #tr').append(tr);
+
+          // Guardar
+          articulo.Id = result['Id'];
+          getLocal('agregar');
         }
       }
+      else {
+        console.log("YA SELECCIONO ESE ARTICULO");
+      }
     }
+    $('#modal').modal('hide');
   }
-  $('#modal').modal('hide');
 });
 
 $('body').on('keyup', '.cantidad', function(evt) {
@@ -124,7 +173,7 @@ $('body').on('keyup', '.cantidad', function(evt) {
   if($('#' + this.id).val()) {
     let cantidad = 0, importe = 0;
     cantidad = parseFloat($('#' + this.id).val());
-    for (var i = 0; i < datos.length; i++) {
+    for (let i = 0; i < datos.length; i++) {
       if(datos[i].Id == id) {
         importe = parseFloat(datos[i].Precio) * cantidad;
         importeActual = datos[i].Precio;
@@ -138,33 +187,9 @@ $('body').on('keyup', '.cantidad', function(evt) {
 $('body').on('click', '#btnEliminar', function() {
   let id = $(this).attr('data-value');
   $(this).parents('tr').first().remove();
-  for (var i = 0; i < articulos.length; i++) {
+  for(let i = 0; i < articulos.length; i++) {
     if(articulos[i].Id == id) {
-      console.log("ENTRA A ELEMINAR");
       delete articulos[i];
     }
   }
 });
-
-// function generarJSON() {
-//   var datos  = [];
-//   var objeto = {};
-//   for(var i= 0; i < articulos.length; i++) {
-//     // var nombre = arrayNombres[i];
-//     datos.push({
-//       "id"    : articulos[i],
-//       "cantidad"  : articulos[i]
-//     });
-//   }
-//   objeto.datos = datos;
-//   console.log(JSON.stringify(objeto));
-//
-//   ajax('GET', '/ventas/venta', objeto, function(data) {
-//     if(data != 'error') {
-//       console.log(data);
-//     }
-//     else {
-//
-//     }
-//   });
-// }

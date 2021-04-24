@@ -77,6 +77,7 @@
               </tbody>
             </table>
           </div>
+          <?php echo view('alertas');?>
         </div>
       </div>
     </div>
