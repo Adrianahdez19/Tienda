@@ -242,7 +242,13 @@ function detallesVenta(info) {
 }
 
 $('#btnVenta').click(function() {
-  if(idCliente && cantidadActual && parseInt(cantidadActual) > 0 && getLocal('existe')) {
+  var inputs = document.querySelectorAll('#tablaVentas input');
+  let bandera = true;
+  for(var i = 0; i < inputs.length; i++) {
+    let valor = $('#' + inputs[i].id).val();
+    if(!valor || parseInt(valor) < 1) bandera = false;
+  }
+  if(idCliente && bandera > 0 && getLocal('existe')) {
     var info = calculos();
     ajax('GET', '/ventas/registrar/' + idCliente, info, function(data) {
       if(data != 'error') {
