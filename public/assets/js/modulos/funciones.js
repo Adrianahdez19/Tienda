@@ -66,6 +66,15 @@ function getLocal(tipo) {
       localStorage.setItem("articulos", JSON.stringify(t));
       let final = localStorage.getItem("articulos");
       final = JSON.parse(final);
+      if(final.length == 0) {
+        $('#subtotal').html('$0');
+        $('#iva').html('$0');
+        $('#total').html('$0');
+      }
+      else if(final.length >= 1) {
+        var info = calculos();
+        detallesVenta(info);
+      }
     }
     else {
       return false;
@@ -113,7 +122,7 @@ function modal(url, titulo, titulos) {
           <tr id="` + data[i].Id + `">
           <td>` + data[i].Nombre + `</td>
           <td>` + data[i].Marca + `</td>
-          <td>` + data[i].Precio + `</td>
+          <td>$` + data[i].Precio + `</td>
           </tr>`;
         }
       }
@@ -123,7 +132,7 @@ function modal(url, titulo, titulos) {
       $('#tablaModal #tr').attr('data-value', titulo);
     }
     else {
-      alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
+      alerta('error', 'Ha ocurrido un error, intenta más tarde.');
     }
   });
 }
@@ -162,6 +171,7 @@ $('body').on('click', '#tablaModal tr', function(evt) {
           $('#tablaVentas #tr').append(tr);
 
           // Guardar
+          cantidadActual = 1;
           articulo.Id = result['Id'];
           getLocal('agregar');
           var info = calculos();
@@ -186,20 +196,19 @@ $('body').on('keyup', '.cantidad', function(evt) {
       if(datos[i].Id == id) {
         importe = parseFloat(datos[i].Precio) * cantidad;
         importeActual = datos[i].Precio;
-        var info = calculos();
-        detallesVenta(info);
       }
     }
-    if(cantidad == 0) $('#importe-' + id).html('$0');
+    if(cantidad == 0) {
+      $('#importe-' + id).html('$0');
+    }
     else if(cantidad > 0) $('#importe-' + id).html('$' + importe);
-    else $('#importe-' + id).html('$' + importeActual);
+    else {
+      $('#importe-' + id).html('$' + importeActual);
+    }
   }
-  else {
-    $('#importe-' + id).html('$0');
-    $('#subtotal').html('$0');
-    $('#iva').html('$0');
-    $('#total').html('$0');
-  }
+  else $('#importe-' + id).html('$0');
+  var info = calculos();
+  detallesVenta(info);
 });
 
 $('body').on('click', '#btnEliminar', function() {
@@ -227,7 +236,7 @@ function detallesVenta(info) {
       $('#total').html('$' + data['total']);
     }
     else {
-      alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
+      alerta('error', 'Ha ocurrido un error, intenta más tarde.');
     }
   });
 }
@@ -238,10 +247,10 @@ $('#btnVenta').click(function() {
     ajax('GET', '/ventas/registrar/' + idCliente, info, function(data) {
       if(data != 'error') {
         alerta('success', 'Bien Hecho, Tu venta ha sido registrada correctamente.');
-        $('.swal2-actions .swal2-confirm').html('<a href="">OK</a>');
+        $('.swal2-actions .swal2-confirm').html('<a style="padding: 70px;" href="">OK</a>');
       }
       else {
-        alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
+        alerta('error', 'Ha ocurrido un error, intenta más tarde.');
       }
     });
   }
