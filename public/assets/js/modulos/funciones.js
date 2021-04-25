@@ -13,6 +13,7 @@ var datos = "";
 var idCliente = "";
 var idArticulo = "";
 var articulo = new Object();
+var cantidadActual = 0;
 var local = [];
 var importeActual = 0;
 var subtotal = 0;
@@ -175,7 +176,8 @@ $('body').on('click', '#tablaModal tr', function(evt) {
   }
 });
 
-$('body').on('change', '.cantidad', function(evt) {
+$('body').on('keyup', '.cantidad', function(evt) {
+  cantidadActual = $('#' + this.id).val();
   let id = $(this).attr('data-value');
   if($('#' + this.id).val()) {
     let cantidad = 0, importe = 0;
@@ -188,8 +190,15 @@ $('body').on('change', '.cantidad', function(evt) {
         detallesVenta(info);
       }
     }
-    if(cantidad > 0) $('#importe-' + id).html('$' + importe);
+    if(cantidad == 0) $('#importe-' + id).html('$0');
+    else if(cantidad > 0) $('#importe-' + id).html('$' + importe);
     else $('#importe-' + id).html('$' + importeActual);
+  }
+  else {
+    $('#importe-' + id).html('$0');
+    $('#subtotal').html('$0');
+    $('#iva').html('$0');
+    $('#total').html('$0');
   }
 });
 
@@ -213,9 +222,9 @@ function calculos() {
 function detallesVenta(info) {
   ajax('GET', '/ventas/venta', info, function(data) {
     if(data != 'error') {
-      $('#subtotal').html('$' +data['subtotal']);
+      $('#subtotal').html('$' + data['subtotal']);
       $('#iva').html('$' + data['iva']);
-      $('#total').html('$' +data['total']);
+      $('#total').html('$' + data['total']);
     }
     else {
       alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
@@ -224,7 +233,7 @@ function detallesVenta(info) {
 }
 
 $('#btnVenta').click(function() {
-  if(idCliente && getLocal('existe')) {
+  if(idCliente && cantidadActual && parseInt(cantidadActual) > 0 && getLocal('existe')) {
     var info = calculos();
     ajax('GET', '/ventas/registrar/' + idCliente, info, function(data) {
       if(data != 'error') {
@@ -247,7 +256,7 @@ $('#btnCancelarVenta').click(function() {
     title: '¿Desea salir de la pantalla actual?',
     showCancelButton: true,
   });
-  $('.swal2-actions .swal2-confirm').html('<a href="">OK</a>');
+  $('.swal2-actions .swal2-confirm').html('<a href="/">OK</a>');
 });
 
 function alerta(tipo, texto) {

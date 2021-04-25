@@ -21,15 +21,21 @@
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($ventas as $key => $value): ?>
-                  <tr>
-                    <td style="text-align: center;">000<?php echo $ventas[$key]->FolioVenta ?></td>
-                    <td style="text-align: center;"><?php echo $ventas[$key]->idCliente ?></td>
-                    <td style="text-align: center;"><?php echo $ventas[$key]->Nombre . " " . $ventas[$key]->Apellidos ?></td>
-                    <td style="text-align: center;">$<?php echo $ventas[$key]->Total ?></td>
-                    <td style="text-align: center;"><?php echo date("d-m-Y", strtotime($ventas[$key]->Fecha)) ?></td>
-                  </tr>
-                <?php endforeach; ?>
+                <?php
+                if(!empty($ventas)):
+                  foreach ($ventas as $key => $value):
+                    ?>
+                    <tr>
+                      <td style="text-align: center;">000<?php echo $ventas[$key]->FolioVenta ?></td>
+                      <td style="text-align: center;"><?php echo $ventas[$key]->idCliente ?></td>
+                      <td style="text-align: center;"><?php echo $ventas[$key]->Nombre . " " . $ventas[$key]->Apellidos ?></td>
+                      <td style="text-align: center;">$<?php echo $ventas[$key]->Total ?></td>
+                      <td style="text-align: center;"><?php echo date("d-m-Y", strtotime($ventas[$key]->Fecha)) ?></td>
+                    </tr>
+                    <?php
+                  endforeach;
+                endif;
+                ?>
               </tbody>
             </table>
           </div>
