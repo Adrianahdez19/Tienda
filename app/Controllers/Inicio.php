@@ -15,19 +15,8 @@ class Inicio extends BaseController
 	{
 		$data['titulo'] = 'Listado de Ventas';
 		echo view('header', $data);
-		// echo view('header');
-		// $data['ventas'] = $this->home_model->getVentas();
-		echo view('inicio');
+		$data['ventas'] = $this->inicio_model->getVentas();
+		echo view('inicio', $data);
 		echo view('footer');
-		// echo view('footer');
 	}
-
-	// public function nuevaVenta()
-	// {
-	// 	// echo view('header');
-	// 	$data['ventas'] = $this->home_model->addVenta();
-	// 	// echo view('home', $data);
-	// 	var_dump($data['ventas']);
-	// 	// echo view('footer');
-	// }
 }
