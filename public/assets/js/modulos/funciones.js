@@ -61,12 +61,19 @@ function getLocal(tipo) {
     console.log(temporal);
   }
   if(tipo == 'eliminar') {
-    // nombre.push(datos[i]);
-    // // articulos.push(datos[i]);
-    // localStorage.setItem("articulos", JSON.stringify(nombre));
-    // let final = localStorage.getItem("articulos");
-    // final = JSON.parse(final);
-    // console.log(final);
+    if(local) {
+      let t = [];
+      for(let i = 0; i < local.length; i++) {
+        if(local[i].Id != idArticulo) t.push(local[i]);
+      }
+      localStorage.setItem("articulos", JSON.stringify(t));
+      let final = localStorage.getItem("articulos");
+      final = JSON.parse(final);
+      console.log(final);
+    }
+    else {
+
+    }
   }
 }
 
@@ -194,13 +201,10 @@ $('body').on('change', '.cantidad', function(evt) {
 });
 
 $('body').on('click', '#btnEliminar', function() {
-  let id = $(this).attr('data-value');
+  idArticulo = $(this).attr('data-value');
+  console.log("ELIMINO" + idArticulo);
   $(this).parents('tr').first().remove();
-  for(let i = 0; i < articulos.length; i++) {
-    if(articulos[i].Id == id) {
-      delete articulos[i];
-    }
-  }
+  getLocal('eliminar');
 });
 
 function calculos() {
