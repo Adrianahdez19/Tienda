@@ -77,12 +77,15 @@
               </tbody>
             </table>
           </div>
-          <?php echo view('alertas');?>
         </div>
       </div>
     </div>
   </div>
 </section>
+<div class="col-sm-12 d-flex justify-content-end">
+  <button type="button" id="btnCancelarVenta" class="btn btn-danger me-1 mb-1">Cancelar</button>
+  <button type="button" id="btnVenta" class="btn btn-primary me-1 mb-1">Guardar</button>
+</div>
 <!-- End Nueva Venta -->
 
 <!-- Modal Clientes -->

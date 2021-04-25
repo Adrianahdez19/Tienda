@@ -1,9 +1,10 @@
-function ajax(type, url, callback) {
+function ajax(type, url, data, callback) {
   $.ajax({
     type: type,
     url: url,
+    data: {data: data},
+    dataType: 'JSON',
     success: function(data) {
-      data = JSON.parse(data);
       callback(data);
     },
     error: function() {

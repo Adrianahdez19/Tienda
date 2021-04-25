@@ -36,6 +36,7 @@ $routes->get('/', 'Inicio::index');
 $routes->get('/ventas', 'Ventas::index');
 $routes->get('/ventas/datos/(:alpha)', 'Ventas::datos/$1');
 $routes->get('/ventas/venta', 'Ventas::venta');
+$routes->get('/ventas/registrar(:num)', 'Ventas::registrar/$1');
 
 /*
  * --------------------------------------------------------------------

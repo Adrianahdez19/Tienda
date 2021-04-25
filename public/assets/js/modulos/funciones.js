@@ -1,5 +1,6 @@
 $( document ).ready(function() {
   localStorage.removeItem('articulos');
+
   // Bloquear letras
   $('body').on('keypress', '.valt', function(tecla) {
     if(tecla.charCode < 48 || tecla.charCode > 57) { // N�meros
@@ -22,6 +23,10 @@ function getLocal(tipo) {
   local = localStorage.getItem("articulos");
   local = JSON.parse(local);
 
+  if(tipo == 'existe') {
+    if(local) return true;
+    else return false;
+  }
   if(tipo == 'especifico') {
     if(local) {
       // console.log("LOCAL TIENE");
@@ -78,7 +83,7 @@ $('#formVentas button').click(function() {
 
 function modal(url, titulo, titulos) {
   let info = new Object();
-  ajax('GET', url, function(data) {
+  ajax('GET', url, info, function(data) {
     if(data != 'error') {
       datos = data;
       $('#modal').modal('show');
@@ -158,6 +163,8 @@ $('body').on('click', '#tablaModal tr', function(evt) {
           // Guardar
           articulo.Id = result['Id'];
           getLocal('agregar');
+          var info = calculos();
+          detallesVenta(info);
         }
       }
       else {
@@ -168,7 +175,7 @@ $('body').on('click', '#tablaModal tr', function(evt) {
   }
 });
 
-$('body').on('keyup', '.cantidad', function(evt) {
+$('body').on('change', '.cantidad', function(evt) {
   let id = $(this).attr('data-value');
   if($('#' + this.id).val()) {
     let cantidad = 0, importe = 0;
@@ -177,6 +184,8 @@ $('body').on('keyup', '.cantidad', function(evt) {
       if(datos[i].Id == id) {
         importe = parseFloat(datos[i].Precio) * cantidad;
         importeActual = datos[i].Precio;
+        var info = calculos();
+        detallesVenta(info);
       }
     }
     if(cantidad > 0) $('#importe-' + id).html('$' + importe);
@@ -193,3 +202,53 @@ $('body').on('click', '#btnEliminar', function() {
     }
   }
 });
+
+function calculos() {
+  var info = localStorage.getItem("articulos");
+  info = JSON.parse(info);
+  for (var i = 0; i < info.length; i++) {
+    let id = info[i].Id;
+    info[i].Cantidad = $('#txtCantidad-' + id).val();
+  }
+  return info;
+}
+
+function detallesVenta(info) {
+  ajax('GET', '/ventas/venta', info, function(data) {
+    console.log(data);
+    if(data != 'error') {
+      $('#subtotal').html('$' +data['subtotal']);
+      $('#iva').html('$' + data['iva']);
+      $('#total').html('$' +data['total']);
+    }
+    else {
+
+    }
+  });
+}
+
+$('#btnVenta').click(function() {
+  if(idCliente && getLocal('existe')) {
+    var info = calculos();
+    ajax('GET', '/ventas/registrar/' + idCliente, info, function(data) {
+      console.log(data);
+      if(data != 'error') {
+        alerta('success', 'Bien Hecho, Tu venta ha sido registrada correctamente.');
+        $('.swal2-actions .swal2-confirm').html('<a href="">OK</a>');
+      }
+      else {
+
+      }
+    });
+  }
+  else {
+    console.log("LO SIENTO LLENA LOS DATOS");
+  }
+});
+
+function alerta(tipo, texto) {
+  Swal.fire({
+    icon: tipo,
+    title: texto
+  });
+}
