@@ -271,7 +271,7 @@ $('#btnCancelarVenta').click(function() {
     title: '¿Desea salir de la pantalla actual?',
     showCancelButton: true,
   });
-  $('.swal2-actions .swal2-confirm').html('<a href="/">OK</a>');
+  $('.swal2-actions .swal2-confirm').html('<a padding: 70px; href="/">OK</a>');
 });
 
 function alerta(tipo, texto) {
