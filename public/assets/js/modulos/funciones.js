@@ -29,7 +29,6 @@ function getLocal(tipo) {
   }
   if(tipo == 'especifico') {
     if(local) {
-      // console.log("LOCAL TIENE");
       let especifico = true;
       for(var i = 0; i < local.length; i++) {
         if(local[i].Id == idArticulo) especifico = false;
@@ -37,7 +36,6 @@ function getLocal(tipo) {
       return especifico;
     }
     else {
-      // console.log("LOCAL VACIO");
       return true;
     }
   }
@@ -52,13 +50,11 @@ function getLocal(tipo) {
     let temporal = [];
     temporal.push(articulo);
     if(local) {
-      console.log("DEBE DE CREAR TEMPORAL");
       for(let i = 0; i < local.length; i++) {
         temporal.push(local[i]);
       }
     }
     localStorage.setItem("articulos", JSON.stringify(temporal));
-    console.log(temporal);
   }
   if(tipo == 'eliminar') {
     if(local) {
@@ -69,10 +65,9 @@ function getLocal(tipo) {
       localStorage.setItem("articulos", JSON.stringify(t));
       let final = localStorage.getItem("articulos");
       final = JSON.parse(final);
-      console.log(final);
     }
     else {
-
+      return false;
     }
   }
 }
@@ -127,7 +122,7 @@ function modal(url, titulo, titulos) {
       $('#tablaModal #tr').attr('data-value', titulo);
     }
     else {
-
+      alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
     }
   });
 }
@@ -146,11 +141,9 @@ $('body').on('click', '#tablaModal tr', function(evt) {
       idArticulo = id;
       $('#tablaModal #' + idArticulo).css('background', '#435ebe40');
       let especifico = getLocal('especifico');
-      // console.log("DICE SI DEBE AREGAGR O NO: " + especifico);
       if(especifico) {
         // No exixte articulo
         let result = getLocal('datos');
-        // console.log(result);
         if(result) {
           let tr = "";
           tr += `
@@ -175,7 +168,7 @@ $('body').on('click', '#tablaModal tr', function(evt) {
         }
       }
       else {
-        console.log("YA SELECCIONO ESE ARTICULO");
+        alerta('warning', 'Artículo ya seleccionado.');
       }
     }
     $('#modal').modal('hide');
@@ -202,9 +195,9 @@ $('body').on('change', '.cantidad', function(evt) {
 
 $('body').on('click', '#btnEliminar', function() {
   idArticulo = $(this).attr('data-value');
-  console.log("ELIMINO" + idArticulo);
   $(this).parents('tr').first().remove();
   getLocal('eliminar');
+  alerta('success', 'Eliminado con éxito.');
 });
 
 function calculos() {
@@ -219,14 +212,13 @@ function calculos() {
 
 function detallesVenta(info) {
   ajax('GET', '/ventas/venta', info, function(data) {
-    console.log(data);
     if(data != 'error') {
       $('#subtotal').html('$' +data['subtotal']);
       $('#iva').html('$' + data['iva']);
       $('#total').html('$' +data['total']);
     }
     else {
-
+      alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
     }
   });
 }
@@ -235,19 +227,27 @@ $('#btnVenta').click(function() {
   if(idCliente && getLocal('existe')) {
     var info = calculos();
     ajax('GET', '/ventas/registrar/' + idCliente, info, function(data) {
-      console.log(data);
       if(data != 'error') {
         alerta('success', 'Bien Hecho, Tu venta ha sido registrada correctamente.');
         $('.swal2-actions .swal2-confirm').html('<a href="">OK</a>');
       }
       else {
-
+        alerta('eror', 'Ha ocurrido un error, intenta más tarde.');
       }
     });
   }
   else {
-    console.log("LO SIENTO LLENA LOS DATOS");
+    alerta('warning', 'Campos vacíos.');
   }
+});
+
+$('#btnCancelarVenta').click(function() {
+  Swal.fire({
+    icon: 'warning',
+    title: '¿Desea salir de la pantalla actual?',
+    showCancelButton: true,
+  });
+  $('.swal2-actions .swal2-confirm').html('<a href="">OK</a>');
 });
 
 function alerta(tipo, texto) {
